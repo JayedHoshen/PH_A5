@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- title and favicon -->
+    <title>GitHub Issues Tracker</title>
+    <link
+      rel="shortcut icon"
+      href="./images/github-logo.png"
+      type="image/x-icon"
+    />
+
+    <!-- font integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- tailwindcss and daisyUI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <!-- login form section -->
+    <section class="w-11/12 lg:w-4/12 mx-auto">
+      <div class="card bg-white shrink-0 shadow-lg rounded-lg">
+        <div class="card-body">
+          <img
+            src="./images/github-logo.png"
+            alt="GitHub Issues Tracker Logo"
+            class="w-16 h-16 mx-auto mb-2"
+          />
+          <h1 class="text-2xl font-bold text-center">GitHub Issues Tracker</h1>
+          <p class="text-center text-gray-600">Sign in to manage your issues</p>
+          <fieldset class="fieldset">
+            <label class="label">Username</label>
+            <input
+              type="text"
+              class="input w-full"
+              placeholder="Enter Username"
+            />
+            <p class="text-gray-500 mb-4">Default: admin</p>
+            <label class="label">Password</label>
+            <input
+              type="password"
+              class="input w-full"
+              placeholder="Enter Password"
+            />
+            <p class="text-gray-500 mb-4">Default: admin123</p>
+            <button class="btn btn-primary w-full">Sign In</button>
+          </fieldset>
+          <span class="text-neutral/80 my-1 text-center">OR</span>
+          <div
+            class="text-center flex flex-col items-center border border-gray-200 rounded-lg p-2"
+          >
+            <span class="text-gray-500 my-3">Demo Credentials: </span>
+            <span><b>Username:</b> admin</span>
+            <span><b>Password:</b> admin123</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- script -->
+    <script src="./scripts/login.js"></script>
+  </body>
+</html>
