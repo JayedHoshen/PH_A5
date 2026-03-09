@@ -68,9 +68,19 @@
     <main class="container mx-auto py-10">
       <!-- issue tabs -->
       <div class="bg-white p-4 rounded-md shadow-sm flex gap-4 mb-4">
-        <button class="btn btn-primary">All</button>
-        <button class="btn">Open</button>
-        <button class="btn">Closed</button>
+        <button
+          id="all-issues"
+          class="btn btn-primary"
+          onclick="switchTab('all')"
+        >
+          All
+        </button>
+        <button id="open-issues" class="btn" onclick="switchTab('open')">
+          Open
+        </button>
+        <button id="closed-issues" class="btn" onclick="switchTab('closed')">
+          Closed
+        </button>
       </div>
 
       <section>
@@ -89,7 +99,9 @@
               />
             </div>
             <div class="">
-              <h3 class="text-xl font-bold"><span>50</span> Issues</h3>
+              <h3 class="text-xl font-bold">
+                <span id="count-issue"></span> Issues
+              </h3>
               <p class="text-neutral/70">Track and manage your GitHub issues</p>
             </div>
           </div>
@@ -113,7 +125,7 @@
         <span class="loading loading-bars text-primary loading-xl"></span>
       </section>
 
-      <!-- issue details modal -->
+      <!-- issue modal -->
       <dialog id="issue_modal" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
           <div id="modal-container" class="space-y-6"></div>

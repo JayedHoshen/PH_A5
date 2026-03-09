@@ -1,3 +1,6 @@
+let currentTab = "all";
+let countIssue = document.getElementById("count-issue");
+
 // spinner management
 const manageSpinner = (status) => {
   if (status === true) {
@@ -21,70 +24,49 @@ const createElements = (arr) => {
   return htmlElements.join(" ");
 };
 
+// function to load all issues from the server and display in the UI
 const loadAllIssues = async () => {
   manageSpinner(true);
   const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
   const response = await fetch(url);
   const data = await response.json();
+  countIssue.innerText = data.data.length;
   displayAllIssues(data.data);
 };
 
-const loadIssueDetails = async (id) => {
-  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  displayIssueDetails(data.data);
+// function to load open issues from the server and display in the UI
+const loadOpenIssues = async () => {
+  manageSpinner(true);
+  const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+  const response = await fetch(url);
+  const data = await response.json();
+  const openIssues = data.data.filter(
+    (issue) => issue.status.toLowerCase() === "open",
+  );
+  countIssue.innerText = openIssues.length;
+  displayAllIssues(openIssues);
 };
 
-const displayIssueDetails = (issue) => {
-  const issueDetailsContainer = document.getElementById("modal-container");
-  issueDetailsContainer.innerHTML = `
-      <h2 class="text-2xl font-bold">${issue.title}</h2>
-      <p class="text-neutral/70 space-x-2">
-        ${issue.status.toLowerCase() === "open" ? '<span class="badge badge-success">Opened</span>' : '<span class="badge badge-error">Closed</span>'}
-        <span> • </span>
-        <span>Opened by ${issue.author}</span>
-        <span> • </span>
-        <span>${new Date(issue.createdAt).toLocaleDateString()}</span>
-      </p>
-      <div class="flex flex-wrap gap-2">${createElements(issue.labels)}</div>
-      <p class="text-sm text-neutral/80">${issue.description}</p>
-      <div class="flex justify-between items-center p-4 bg-gray-50 rounded-md mb-4">
-          <div class = "left space-y-2">
-            <p class="text-neutral/80">Assignee:</p>
-            <p class="font-bold capitalize">${issue.assignee}</p>
-          </div>
-          <div class = "right space-y-2">
-            <p class="text-neutral/80">Priority:</p>
-             <span class="btn rounded-xl btn-soft ${issue.priority.toUpperCase() === "HIGH" ? "btn-error" : issue.priority.toUpperCase() === "MEDIUM" ? "btn-warning" : "btn-success"}">${issue.priority.toUpperCase()}</span>
-          </div>
-      </div>
-  `;
-  document.getElementById("issue_modal").showModal();
+// function to load closed issues from the server and display in the UI
+const loadClosedIssues = async () => {
+  manageSpinner(true);
+  const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+  const response = await fetch(url);
+  const data = await response.json();
+  const closedIssues = data.data.filter(
+    (issue) => issue.status.toLowerCase() === "closed",
+  );
+  countIssue.innerText = closedIssues.length;
+  displayAllIssues(closedIssues);
 };
 
-// {
-//     "id": 1,
-//     "title": "Fix navigation menu on mobile devices",
-//     "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-//     "status": "open",
-//     "labels": [
-//         "bug",
-//         "help wanted"
-//     ],
-//     "priority": "high",
-//     "author": "john_doe",
-//     "assignee": "jane_smith",
-//     "createdAt": "2024-01-15T10:30:00Z",
-//     "updatedAt": "2024-01-15T10:30:00Z"
-// }
-
+// function to display all issues in the UI
 const displayAllIssues = (issues) => {
   const issuesContainer = document.getElementById("issue-container");
   issuesContainer.innerHTML = "";
 
   issues.forEach((issue) => {
-    // console.log(issue);
+    // console.log(issue.assignee);
     const issueItem = document.createElement("div");
     issueItem.innerHTML = `
         <!-- issue item -->
@@ -109,3 +91,62 @@ const displayAllIssues = (issues) => {
 };
 
 loadAllIssues();
+
+// load and display issue details in modal
+const loadIssueDetails = async (id) => {
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  displayIssueDetails(data.data);
+};
+
+const displayIssueDetails = (issue) => {
+  const issueDetailsContainer = document.getElementById("modal-container");
+  issueDetailsContainer.innerHTML = `
+      <h2 class="text-2xl font-bold">${issue.title}</h2>
+      <p class="text-neutral/70 space-x-2">
+        ${issue.status.toLowerCase() === "open" ? '<span class="badge badge-success">Opened</span>' : '<span class="badge badge-error">Closed</span>'}
+        <span> • </span>
+        <span>Opened by ${issue.author}</span>
+        <span> • </span>
+        <span>${new Date(issue.createdAt).toLocaleDateString()}</span>
+      </p>
+      <div class="flex flex-wrap gap-2">${createElements(issue.labels)}</div>
+      <p class="text-sm text-neutral/80">${issue.description}</p>
+      <div class="flex justify-between items-center p-4 bg-gray-50 rounded-md mb-4">
+          <div class = "left space-y-2">
+            <p class="text-neutral/80">Assignee:</p>
+            <p class="font-bold capitalize">${issue.assignee !== "" ? issue.assignee : "Unassigned"}</p>
+          </div>
+          <div class = "right space-y-2">
+            <p class="text-neutral/80">Priority:</p>
+             <span class="btn rounded-xl btn-soft ${issue.priority.toUpperCase() === "HIGH" ? "btn-error" : issue.priority.toUpperCase() === "MEDIUM" ? "btn-warning" : "btn-success"}">${issue.priority.toUpperCase()}</span>
+          </div>
+      </div>
+  `;
+  document.getElementById("issue_modal").showModal();
+};
+
+// changing tab content on click
+const switchTab = (tab) => {
+  currentTab = tab;
+  const tabs = ["all", "open", "closed"];
+  tabs.forEach((t) => {
+    const tabName = document.getElementById(t + "-issues");
+    if (t === tab) {
+      tabName.classList.add("btn-primary");
+    } else {
+      tabName.classList.remove("btn-primary");
+    }
+  });
+
+  if (tab === "all") {
+    loadAllIssues();
+  } else if (tab === "open") {
+    loadOpenIssues();
+  } else {
+    loadClosedIssues();
+  }
+};
+
+switchTab(currentTab);
