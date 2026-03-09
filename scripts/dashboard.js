@@ -78,7 +78,7 @@ const displayAllIssues = (issues) => {
             <h4 class="text-lg font-semibold">${issue.title}</h4>
             <p class="text-sm text-neutral/80">${issue.description}</p>
             <div class="flex flex-wrap gap-2">${createElements(issue.labels)}</div>
-            <div class="author text-neutral/70 py-4 border-t border-neutral/20 space-y-2">
+            <div class="flex justify-between items-center text-neutral/70 py-4 border-t border-neutral/20 space-y-2">
               <h4>#${issue.id} by ${issue.author}</h4>
               <p>${new Date(issue.createdAt).toLocaleDateString()}</p>
             </div>
@@ -118,7 +118,7 @@ const displayIssueDetails = (issue) => {
           </div>
           <div class = "right space-y-2">
             <p class="text-neutral/80">Priority:</p>
-             <span class="btn rounded-xl btn-soft ${issue.priority.toUpperCase() === "HIGH" ? "btn-error" : issue.priority.toUpperCase() === "MEDIUM" ? "btn-warning" : "btn-success"}">${issue.priority.toUpperCase()}</span>
+             <span class="btn rounded-xl  ${issue.priority.toUpperCase() === "HIGH" ? "btn-error" : issue.priority.toUpperCase() === "MEDIUM" ? "btn-warning" : "btn-success"}">${issue.priority.toUpperCase()}</span>
           </div>
       </div>
   `;
