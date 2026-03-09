@@ -103,79 +103,14 @@
 
         <!-- issue list content -->
         <div
+          id="issue-container"
           class="issue-list-container p-6 rounded-b-lg shadow-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3"
-        >
-          <!-- issue item -->
-          <div
-            class="issue-item bg-white p-4 shadow-lg rounded-xl border-t-4 border-green-600 space-y-4"
-          >
-            <div class="flex justify-between items-center">
-              <img
-                class="w-8"
-                src="./images/Closed- Status .png"
-                alt="status"
-              />
-              <span class="btn btn-soft btn-success rounded-xl uppercase"
-                >Medium</span
-              >
-            </div>
-            <h4 class="text-lg font-semibold">
-              Fix navigation menu on mobile devices
-            </h4>
-            <p class="text-sm text-neutral/80">
-              The navigation menu doesn't collapse properly on mobile devices...
-            </p>
-            <div class="flex flex-wrap gap-2">
-              <p class="btn btn-outline btn-error rounded-full uppercase">
-                <i class="fa-solid fa-bug"></i> bug
-              </p>
-              <p class="btn btn-outline btn-error rounded-full uppercase">
-                <i class="fa-solid fa-life-ring"></i> help wanted
-              </p>
-            </div>
-            <div
-              class="author text-neutral/70 py-4 border-t border-neutral/20 space-y-2"
-            >
-              <h4>#1 by john_doe</h4>
-              <p>1/15/2024</p>
-            </div>
-          </div>
-          <!-- issue item -->
-          <div
-            class="issue-item bg-white p-4 shadow-lg rounded-xl border-t-4 border-green-600 space-y-4"
-          >
-            <div class="flex justify-between items-center">
-              <img
-                class="w-8"
-                src="./images/Closed- Status .png"
-                alt="status"
-              />
-              <span class="btn btn-soft btn-success rounded-xl uppercase"
-                >Medium</span
-              >
-            </div>
-            <h4 class="text-lg font-semibold">
-              Fix navigation menu on mobile devices
-            </h4>
-            <p class="text-sm text-neutral/80">
-              The navigation menu doesn't collapse properly on mobile devices...
-            </p>
-            <div class="flex flex-wrap gap-2">
-              <p class="btn btn-outline btn-error rounded-full uppercase">
-                <i class="fa-solid fa-bug"></i> bug
-              </p>
-              <p class="btn btn-outline btn-error rounded-full uppercase">
-                <i class="fa-solid fa-life-ring"></i> help wanted
-              </p>
-            </div>
-            <div
-              class="author text-neutral/70 py-4 border-t border-neutral/20 space-y-2"
-            >
-              <h4>#1 by john_doe</h4>
-              <p>1/15/2024</p>
-            </div>
-          </div>
-        </div>
+        ></div>
+      </section>
+
+      <!-- loading spinner -->
+      <section id="spinner" class="py-10 text-center hidden">
+        <span class="loading loading-bars text-primary loading-xl"></span>
       </section>
     </main>
 
