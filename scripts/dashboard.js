@@ -29,19 +29,54 @@ const loadAllIssues = async () => {
   displayAllIssues(data.data);
 };
 
+const loadIssueDetails = async (id) => {
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  displayIssueDetails(data.data);
+};
+
+const displayIssueDetails = (issue) => {
+  const issueDetailsContainer = document.getElementById("modal-container");
+  issueDetailsContainer.innerHTML = `
+      <h2 class="text-2xl font-bold">${issue.title}</h2>
+      <p class="text-neutral/70 space-x-2">
+        ${issue.status.toLowerCase() === "open" ? '<span class="badge badge-success">Opened</span>' : '<span class="badge badge-error">Closed</span>'}
+        <span> • </span>
+        <span>Opened by ${issue.author}</span>
+        <span> • </span>
+        <span>${new Date(issue.createdAt).toLocaleDateString()}</span>
+      </p>
+      <div class="flex flex-wrap gap-2">${createElements(issue.labels)}</div>
+      <p class="text-sm text-neutral/80">${issue.description}</p>
+      <div class="flex justify-between items-center p-4 bg-gray-50 rounded-md mb-4">
+          <div class = "left space-y-2">
+            <p class="text-neutral/80">Assignee:</p>
+            <p class="font-bold capitalize">${issue.assignee}</p>
+          </div>
+          <div class = "right space-y-2">
+            <p class="text-neutral/80">Priority:</p>
+             <span class="btn rounded-xl btn-soft ${issue.priority.toUpperCase() === "HIGH" ? "btn-error" : issue.priority.toUpperCase() === "MEDIUM" ? "btn-warning" : "btn-success"}">${issue.priority.toUpperCase()}</span>
+          </div>
+      </div>
+  `;
+  document.getElementById("issue_modal").showModal();
+};
+
 // {
-//     "id": 42,
-//     "title": "Add role-based access control",
-//     "description": "Implement RBAC system with different permission levels for users, moderators, and admins.",
+//     "id": 1,
+//     "title": "Fix navigation menu on mobile devices",
+//     "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
 //     "status": "open",
 //     "labels": [
-//         "enhancement"
+//         "bug",
+//         "help wanted"
 //     ],
 //     "priority": "high",
-//     "author": "rbac_rachel",
-//     "assignee": "security_sam",
-//     "createdAt": "2024-01-23T08:45:00Z",
-//     "updatedAt": "2024-01-23T08:45:00Z"
+//     "author": "john_doe",
+//     "assignee": "jane_smith",
+//     "createdAt": "2024-01-15T10:30:00Z",
+//     "updatedAt": "2024-01-15T10:30:00Z"
 // }
 
 const displayAllIssues = (issues) => {
@@ -49,11 +84,11 @@ const displayAllIssues = (issues) => {
   issuesContainer.innerHTML = "";
 
   issues.forEach((issue) => {
-    console.log(issue);
+    // console.log(issue);
     const issueItem = document.createElement("div");
     issueItem.innerHTML = `
         <!-- issue item -->
-        <div
+        <div onclick = "loadIssueDetails(${issue.id})"
             class="issue-item bg-white p-4 shadow-lg rounded-xl space-y-4 h-full border-t-4 ${issue.status.toLowerCase() === "open" ? "border-green-600" : "border-purple-600"}">
             <div class="flex justify-between items-center">
               ${issue.status === "open" ? '<img class="w-8" src="./images/Open-Status.png" alt="status"/>' : '<img class="w-8" src="./images/ClosedStatus.png" alt="status"/>'}
