@@ -1,7 +1,7 @@
 let currentTab = "all";
 let countIssue = document.getElementById("count-issue");
 
-// spinner management
+// function to manage spinner visibility
 const manageSpinner = (status) => {
   if (status === true) {
     document.getElementById("spinner").classList.remove("hidden");
@@ -12,7 +12,7 @@ const manageSpinner = (status) => {
   }
 };
 
-// function to create label elements based on the labels array
+// function to create html elements for labels
 const createElements = (arr) => {
   const htmlElements = arr.map(
     (el) => `
@@ -60,13 +60,12 @@ const loadClosedIssues = async () => {
   displayAllIssues(closedIssues);
 };
 
-// function to display all issues in the UI
+// function to display any type of issues in the UI
 const displayAllIssues = (issues) => {
   const issuesContainer = document.getElementById("issue-container");
   issuesContainer.innerHTML = "";
 
   issues.forEach((issue) => {
-    // console.log(issue.assignee);
     const issueItem = document.createElement("div");
     issueItem.innerHTML = `
         <!-- issue item -->
@@ -89,10 +88,9 @@ const displayAllIssues = (issues) => {
   });
   manageSpinner(false);
 };
-
 loadAllIssues();
 
-// load and display issue details in modal
+// function to load issue details from the server and display in the UI
 const loadIssueDetails = async (id) => {
   const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
   const res = await fetch(url);
@@ -127,7 +125,7 @@ const displayIssueDetails = (issue) => {
   document.getElementById("issue_modal").showModal();
 };
 
-// changing tab content on click
+// function to switch between tabs and load respective issues
 const switchTab = (tab) => {
   currentTab = tab;
   const tabs = ["all", "open", "closed"];
@@ -148,5 +146,29 @@ const switchTab = (tab) => {
     loadClosedIssues();
   }
 };
+
+document.getElementById("btn-search").addEventListener("click", () => {
+  const input = document.getElementById("input-search");
+  const searchInput = input.value.trim().toLowerCase();
+
+  if (searchInput === "") {
+    alert("Please enter a search term");
+    switchTab(currentTab);
+    return;
+  }
+
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchInput}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.data.length === 0) {
+        alert("No issues found");
+        switchTab(currentTab);
+        return;
+      }
+      countIssue.innerText = data.data.length;
+      displayAllIssues(data.data);
+    });
+});
 
 switchTab(currentTab);

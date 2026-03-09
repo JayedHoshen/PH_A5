@@ -56,12 +56,21 @@
           <a class="btn btn-ghost text-xl">GitHub Issues Tracker</a>
         </div>
         <div class="flex gap-2">
-          <input
-            type="text"
-            placeholder="Search issues..."
-            class="input input-bordered"
-          />
-          <button class="btn btn-primary">Search</button>
+          <div class="join">
+            <div>
+              <label class="input validator join-item">
+                <input
+                  id="input-search"
+                  type="text"
+                  placeholder="Search issues..."
+                  required
+                />
+              </label>
+            </div>
+            <button id="btn-search" class="btn btn-primary join-item">
+              Search
+            </button>
+          </div>
         </div>
       </div>
     </header>
